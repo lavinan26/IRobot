@@ -8,7 +8,6 @@
 import {NetworkInfo} from 'react-native-network-info';
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Switch} from 'react-native';
-
 const themeColor = '#4b0082';
 const themeColor2 = '#ffffff';
 
