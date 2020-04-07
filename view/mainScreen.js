@@ -15,6 +15,7 @@ import {
   TouchableOpacity,
   Switch,
   Dimensions,
+  StatusBar
 } from 'react-native';
 import Video from 'react-native-video';
 import {getGatewayIP} from '../WIFI/setupWIFI';
@@ -44,10 +45,13 @@ export class MainScreen extends React.Component {
 
   componentDidMount() {
     getGatewayIP().then(ip => this.setState({ip: ip}));
+    StatusBar.setHidden(true);
   }
 
   render() {
     console.log(this.state.ip);
+    const screenWidth = Math.round(Dimensions.get('window').width);
+    const screenHeight = Math.round(Dimensions.get('window').height);
     // return (
     //   <View style={{flex: 2}}>
     //     <View style={{flex: 1}}>
@@ -72,23 +76,27 @@ export class MainScreen extends React.Component {
     // );
     return (
       <View style={styles.container}>
-        <View style={styles.headerTextBox}>
+        <View style={styles.videoView}>
+          <View style={{flex: 1,
+            width: '100%',
+            aspectRatio: screenWidth/screenHeight,
+            backgroundColor: 'black',
+            height: '100%'}}>
+            <WebView
+              source={{uri: `http://${this.state.ip}:8080`}}
+              style={{marginTop: 0, 
+                width: '100%', 
+                backgroundColor:'white', 
+                aspectRatio:screenWidth/screenHeight
+              }}
+            />
+          </View>
+        </View>
+        {/* <View style={styles.headerTextBox}>
           <Text style={styles.headerText}>IRobot Controller</Text>
         </View>
 
         <View style={styles.videoView}>
-          {/* <Text style={styles.errorText}>
-            This is the video streaming space
-          </Text> */}
-          {/* <Video
-            source={require('./../src/Dance.mp4')} // Can be a URL or a local file.
-            // ref={ref => {
-            //   this.player = ref;
-            // }} // Store reference
-            // onBuffer={this.onBuffer} // Callback when remote video is buffering
-            // onError={this.videoError} // Callback when video cannot be loaded
-            style={styles.backgroundVideo}
-          /> */}
           <View style={{flex: 1, width: '100%', aspectRatio: 1}}>
             <WebView
               source={{uri: `http://${this.state.ip}:8080`}}
@@ -154,7 +162,7 @@ export class MainScreen extends React.Component {
             onValueChange={value => this.setState({sw4: value})}
             value={this.state.sw4}
           />
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -187,7 +195,7 @@ const styles = StyleSheet.create({
     flex: 5,
     // borderColor: 'black',
     // borderWidth: 4,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     backgroundColor: 'black',
     // borderRadius: 10,
