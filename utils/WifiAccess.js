@@ -1,7 +1,13 @@
 import {NetworkInfo} from 'react-native-network-info';
 
 export const getRobotIP = () => {
-  NetworkInfo.getGatewayIPAddress().then(defaultGateway => {
-    console.log(defaultGateway);
+  return new Promise((resolve, reject) => {
+    NetworkInfo.getGatewayIPAddress()
+      .then(defaultGateway => {
+        resolve(defaultGateway);
+      })
+      .catch(error => {
+        reject("Failed to get default gateway IP");
+      });
   });
 };
